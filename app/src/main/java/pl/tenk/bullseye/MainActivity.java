@@ -13,6 +13,7 @@ import java.util.Locale;
 import static pl.tenk.bullseye.R.integer.alpha_value;
 import static pl.tenk.bullseye.R.integer.charlie_value;
 import static pl.tenk.bullseye.R.integer.delta_value;
+import static pl.tenk.bullseye.R.string.text_factor_value;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     long milisecondsTime, startTime, bufTime, updateTime = 0L;
     Handler stopwatchHandler;
     int Seconds = 0, Minutes = 0, Miliseconds = 0, updatePoints = 0;
-    float Factor = (float) 0.0;
-    float timeInSeconds = (float) 0.0;
+    float Factor = (float) 0;
+    float timeInSeconds = (float) 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
         addCharlieButton = (Button)findViewById(R.id.button_add_charlie);
         addDeltaButton = (Button)findViewById(R.id.button_add_delta);
 
-        timer.setText(getResources().getString(R.string.stopwatch_counter_zero,
+        timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
                 Minutes,
                 Seconds,
                 Miliseconds));
+        comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         addAlphaButton.setText(getResources().getString(R.string.button_add_alpha, getResources().getInteger(alpha_value)));
         addCharlieButton.setText(getResources().getString(R.string.button_add_charlie, getResources().getInteger(charlie_value)));
         addDeltaButton.setText(getResources().getString(R.string.button_add_delta, getResources().getInteger(delta_value)));
@@ -93,10 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 Minutes = 0;
                 Seconds = 0;
                 Miliseconds = 0;
-                timer.setText(getResources().getString(R.string.stopwatch_counter_zero));
-                comstockFactor.setText(getResources().getString(R.string.factor_value_zero));
+                Factor = 0;
+                timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero));
+                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                timer.setText(getResources().getString(R.string.stopwatch_counter_zero,
+                timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
                         Minutes,
                         Seconds,
                         Miliseconds));
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             Seconds = Seconds % 60;
             Miliseconds = (int)(updateTime % 1000);
             timeInSeconds = (float) (updateTime / 1000.0);
-            timer.setText(getResources().getString(R.string.stopwatch_counter_zero,
+            timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
                     Minutes,
                     Seconds,
                     Miliseconds));

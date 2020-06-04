@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/stopwatch_counter_zero"
+        android:text="@string/text_stopwatch_counter_zero"
         android:textAlignment="center"
         android:textSize="54sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +52,7 @@
         android:id="@+id/text_factorValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/factor_value_zero"
+        android:text="@string/text_factor_value"
         android:textAlignment="center"
         android:textSize="72sp"
         android:textStyle="bold"
@@ -90,16 +90,6 @@
         android:text="@string/button_add_delta"
         app:layout_constraintBottom_toTopOf="@+id/button_stop"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup_comstock_points"
-        style="chip"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_stopwatchCounter"/>
 
     <TextView
         android:id="@+id/text_factor_calculation"
