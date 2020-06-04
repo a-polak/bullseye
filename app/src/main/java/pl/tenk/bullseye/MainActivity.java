@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+// Tomek mnie męczy o gicie, a ja tu chce kodzic!
     }
     public Runnable runnableStopwatch = new Runnable(){
         public void run(){
