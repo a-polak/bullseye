@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bullseye</string>
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_reset">Reset</string>
+    <string name="stopwatch_counter_zero">00:00.000</string>
+    <string name="factor_value_zero">0.000</string>
+    <string name="button_alpha">A (%d)</string>
+    <string name="button_add_charlie">C (%d)</string>
+    <string name="button_add_delta">D (%d)</string>
+    <string name="text_factorCalculation">%d pts / %03d secs</string>
+</resources>
