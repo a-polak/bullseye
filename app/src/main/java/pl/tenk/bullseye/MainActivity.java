@@ -1,11 +1,13 @@
 package pl.tenk.bullseye;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
@@ -13,17 +15,26 @@ import java.util.Locale;
 import static pl.tenk.bullseye.R.integer.alpha_value;
 import static pl.tenk.bullseye.R.integer.charlie_value;
 import static pl.tenk.bullseye.R.integer.delta_value;
-import static pl.tenk.bullseye.R.string.text_factor_value;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView timer, comstockFactor, comstockCalculation;
-    Button startButton, stopButton, resetButton, addAlphaButton, addCharlieButton, addDeltaButton;
+    TextView timer, comstockFactor, comstockCalculation, countACalculation, countCCalculation, countDCalculation;
+    Button startButton, stopButton, resetButton, addAlphaButton, addCharlieButton, addDeltaButton, resetPointsButton;
     long milisecondsTime, startTime, bufTime, updateTime = 0L;
     Handler stopwatchHandler;
-    int Seconds = 0, Minutes = 0, Miliseconds = 0, updatePoints = 0;
+    int Seconds = 0,
+            Minutes = 0,
+            Miliseconds = 0,
+            updatePoints = 0,
+            countA = 0,
+            countC = 0,
+            countD = 0,
+            ASum,
+            CSum,
+            DSum;
     float Factor = (float) 0;
     float timeInSeconds = (float) 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +45,16 @@ public class MainActivity extends AppCompatActivity {
         startButton = (Button)findViewById(R.id.button_start);
         stopButton = (Button)findViewById(R.id.button_stop);
         resetButton = (Button)findViewById(R.id.button_reset);
+        resetPointsButton = (Button)findViewById(R.id.button_reset_points);
         comstockFactor = (TextView)findViewById(R.id.text_factorValue);
         comstockCalculation = (TextView)findViewById(R.id.text_factor_calculation);
         addAlphaButton = (Button)findViewById(R.id.button_add_alpha);
         addCharlieButton = (Button)findViewById(R.id.button_add_charlie);
         addDeltaButton = (Button)findViewById(R.id.button_add_delta);
+        countACalculation = (TextView)findViewById(R.id.text_count_A);
+        countCCalculation = (TextView)findViewById(R.id.text_count_C);
+        countDCalculation = (TextView)findViewById(R.id.text_count_D);
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.beep);
 
         timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
                 Minutes,
@@ -51,16 +67,39 @@ public class MainActivity extends AppCompatActivity {
         comstockCalculation.setText(getResources().getString(R.string.text_factorCalculation,
                 updatePoints,
                 timeInSeconds));
+        ASum = getResources().getInteger(alpha_value) * countA;
+        CSum = getResources().getInteger(charlie_value) * countC;
+        DSum = getResources().getInteger(delta_value) * countD;
+        countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+        countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+        countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
 
         stopwatchHandler = new Handler();
 
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                mp.start();
+                timeInSeconds = 0f;
                 startTime = SystemClock.elapsedRealtime();
                 stopwatchHandler.postDelayed(runnableStopwatch, 0);
                 resetButton.setEnabled(false);
                 startButton.setEnabled(false);
+                updatePoints = 0;
+                countA = 0;
+                ASum = getResources().getInteger(alpha_value) * countA;
+                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+                countC = 0;
+                CSum = getResources().getInteger(charlie_value) * countC;
+                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+                countD = 0;
+                DSum = getResources().getInteger(delta_value) * countD;
+                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+                if(timeInSeconds >0)
+                    Factor = (float) updatePoints / timeInSeconds;
+                else Factor = 0;
+                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
             }
         });
 
@@ -71,9 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 stopwatchHandler.removeCallbacks(runnableStopwatch);
                 resetButton.setEnabled(true);
                 startButton.setEnabled(true);
-                addAlphaButton.setEnabled(true);
-                addCharlieButton.setEnabled(true);
-                addDeltaButton.setEnabled(true);
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0)
                 Factor = (float) updatePoints / timeInSeconds;
@@ -92,10 +128,21 @@ public class MainActivity extends AppCompatActivity {
                 updateTime = 0L;
                 timeInSeconds = 0f;
                 updatePoints = 0;
+                countA = 0;
+                ASum = getResources().getInteger(alpha_value) * countA;
+                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+                countC = 0;
+                CSum = getResources().getInteger(charlie_value) * countC;
+                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+                countD = 0;
+                DSum = getResources().getInteger(delta_value) * countD;
+                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
                 Minutes = 0;
                 Seconds = 0;
                 Miliseconds = 0;
-                Factor = 0;
+                if(timeInSeconds >0)
+                    Factor = (float) updatePoints / timeInSeconds;
+                else Factor = 0;
                 timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero));
                 comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
@@ -109,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
         addAlphaButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updatePoints += getResources().getInteger(alpha_value);
+                countA++;
+                ASum = getResources().getInteger(alpha_value) * countA;
+                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0)
                     Factor = (float) updatePoints / timeInSeconds;
@@ -120,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
         addCharlieButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updatePoints += getResources().getInteger(charlie_value);
+                countC++;
+                CSum = getResources().getInteger(charlie_value) * countC;
+                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0)
                     Factor = (float) updatePoints / timeInSeconds;
@@ -131,6 +184,29 @@ public class MainActivity extends AppCompatActivity {
         addDeltaButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updatePoints += getResources().getInteger(delta_value);
+                countD++;
+                DSum = getResources().getInteger(delta_value) * countD;
+                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+                if(timeInSeconds >0)
+                    Factor = (float) updatePoints / timeInSeconds;
+                else Factor = 0;
+                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
+            }
+        });
+
+        resetPointsButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                updatePoints = 0;
+                countA = 0;
+                ASum = getResources().getInteger(alpha_value) * countA;
+                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+                countC = 0;
+                CSum = getResources().getInteger(charlie_value) * countC;
+                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+                countD = 0;
+                DSum = getResources().getInteger(delta_value) * countD;
+                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0)
                     Factor = (float) updatePoints / timeInSeconds;
@@ -143,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
     public Runnable runnableStopwatch = new Runnable(){
         public void run(){
             milisecondsTime = SystemClock.elapsedRealtime() - startTime;
-            updateTime = bufTime + milisecondsTime;
+            updateTime = milisecondsTime;
             Seconds = (int)(updateTime / 1000);
             Minutes = Seconds / 60;
             Seconds = Seconds % 60;

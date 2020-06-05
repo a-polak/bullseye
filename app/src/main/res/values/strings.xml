@@ -9,4 +9,8 @@
     <string name="button_add_charlie">C (%d)</string>
     <string name="button_add_delta">D (%d)</string>
     <string name="text_factorCalculation">%d pts / %.3f secs</string>
+    <string name="text_count_A">A x %d = %d</string>
+    <string name="text_count_C">C x %d = %d</string>
+    <string name="text_count_D">D x %d = %d</string>
+    <string name="button_reset_points">Reset Points</string>
 </resources>
