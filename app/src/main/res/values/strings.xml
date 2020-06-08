@@ -13,4 +13,8 @@
     <string name="text_count_C">C x %d = %d</string>
     <string name="text_count_D">D x %d = %d</string>
     <string name="button_reset_points">Reset Points</string>
+    <string name="button_add_no_shoot">NS (%d)</string>
+    <string name="button_add_miss">M (%d)</string>
+    <string name="text_count_NS">NS x %d = %d</string>
+    <string name="text_count_M">M x %d = %d</string>
 </resources>
