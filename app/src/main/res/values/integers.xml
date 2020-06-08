@@ -3,4 +3,6 @@
     <integer name="alpha_value">5</integer>
     <integer name="charlie_value">3</integer>
     <integer name="delta_value">1</integer>
+    <integer name="no_shoot_value">-10</integer>
+    <integer name="miss_value">-10</integer>
 </resources>

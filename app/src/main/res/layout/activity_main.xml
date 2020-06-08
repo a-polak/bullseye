@@ -113,6 +113,30 @@
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_count_M" />
+
+    <TextView
+        android:id="@+id/text_count_NS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/text_count_NS"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_factor_calculation" />
+
+    <TextView
+        android:id="@+id/text_count_M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/text_count_M"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_factor_calculation" />
 
     <TextView
@@ -125,7 +149,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_factor_calculation" />
+        app:layout_constraintTop_toBottomOf="@+id/text_count_M" />
 
     <TextView
         android:id="@+id/text_count_C"
@@ -139,7 +163,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/text_count_D"
         app:layout_constraintStart_toEndOf="@+id/text_count_A"
-        app:layout_constraintTop_toBottomOf="@+id/text_factor_calculation" />
+        app:layout_constraintTop_toBottomOf="@+id/text_count_M" />
 
     <Button
         android:id="@+id/button_reset_points"
@@ -152,5 +176,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_count_D" />
+
+    <Button
+        android:id="@+id/button_add_no_shoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/button_add_no_shoot"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_alpha"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_add_miss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/button_add_miss"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_alpha"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
