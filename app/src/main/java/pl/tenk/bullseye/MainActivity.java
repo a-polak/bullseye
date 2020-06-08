@@ -47,23 +47,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timer = (TextView)findViewById(R.id.text_stopwatchCounter);
-        startButton = (Button)findViewById(R.id.button_start);
-        stopButton = (Button)findViewById(R.id.button_stop);
-        resetButton = (Button)findViewById(R.id.button_reset);
-        resetPointsButton = (Button)findViewById(R.id.button_reset_points);
-        comstockFactor = (TextView)findViewById(R.id.text_factorValue);
-        comstockCalculation = (TextView)findViewById(R.id.text_factor_calculation);
-        addAlphaButton = (Button)findViewById(R.id.button_add_alpha);
-        addCharlieButton = (Button)findViewById(R.id.button_add_charlie);
-        addDeltaButton = (Button)findViewById(R.id.button_add_delta);
-        addNoShootButton = (Button)findViewById(R.id.button_add_no_shoot);
-        addMissButton= (Button)findViewById(R.id.button_add_miss);
-        countACalculation = (TextView)findViewById(R.id.text_count_A);
-        countCCalculation = (TextView)findViewById(R.id.text_count_C);
-        countDCalculation = (TextView)findViewById(R.id.text_count_D);
-        countNSCalculation = (TextView)findViewById(R.id.text_count_NS);
-        countMCalculation = (TextView)findViewById(R.id.text_count_M);
+        timer = findViewById(R.id.text_stopwatchCounter);
+        startButton = findViewById(R.id.button_start);
+        stopButton = findViewById(R.id.button_stop);
+        resetButton = findViewById(R.id.button_reset);
+        resetPointsButton = findViewById(R.id.button_reset_points);
+        comstockFactor = findViewById(R.id.text_factorValue);
+        comstockCalculation = findViewById(R.id.text_factor_calculation);
+        addAlphaButton = findViewById(R.id.button_add_alpha);
+        addCharlieButton = findViewById(R.id.button_add_charlie);
+        addDeltaButton = findViewById(R.id.button_add_delta);
+        addNoShootButton = findViewById(R.id.button_add_no_shoot);
+        addMissButton= findViewById(R.id.button_add_miss);
+        countACalculation = findViewById(R.id.text_count_A);
+        countCCalculation = findViewById(R.id.text_count_C);
+        countDCalculation = findViewById(R.id.text_count_D);
+        countNSCalculation = findViewById(R.id.text_count_NS);
+        countMCalculation = findViewById(R.id.text_count_M);
 
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.beep);
 
@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 countNS = 0;
                 NSSum = getResources().getInteger(no_shoot_value) * countNS;
                 countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+                countM = 0;
+                MSum = getResources().getInteger(miss_value) * countM;
+                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0 && updatePoints > 0)
                     Factor = (float) updatePoints / timeInSeconds;
@@ -160,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                 countNS = 0;
                 NSSum = getResources().getInteger(no_shoot_value) * countNS;
                 countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+                countM = 0;
+                MSum = getResources().getInteger(miss_value) * countM;
+                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
                 Minutes = 0;
                 Seconds = 0;
                 Miliseconds = 0;
@@ -238,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 updatePoints += getResources().getInteger(miss_value);
                 countM++;
-                MSum = getResources().getInteger(miss_value);
+                MSum = getResources().getInteger(miss_value) * countM;
                 countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
                 comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
                 if(timeInSeconds >0 && updatePoints > 0)
@@ -264,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
                 countNS = 0;
                 NSSum = getResources().getInteger(no_shoot_value) * countNS;
                 countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+                countM = 0;
+                MSum = getResources().getInteger(miss_value) * countM;
+                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
                 if(timeInSeconds >0 && updatePoints > 0)
                     Factor = (float) updatePoints / timeInSeconds;
                 else Factor = 0;
