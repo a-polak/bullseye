@@ -17,4 +17,6 @@
     <string name="button_add_miss">M (%d)</string>
     <string name="text_count_NS">NS x %d = %d</string>
     <string name="text_count_M">M x %d = %d</string>
+    <string name="sound_details_button">Sound</string>
+    <string name="button_back">Back</string>
 </resources>

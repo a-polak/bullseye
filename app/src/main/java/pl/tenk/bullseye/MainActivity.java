@@ -1,5 +1,6 @@
 package pl.tenk.bullseye;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,7 @@ import static pl.tenk.bullseye.R.integer.no_shoot_value;
 public class MainActivity extends AppCompatActivity {
 
     TextView timer, comstockFactor, comstockCalculation, countACalculation, countCCalculation, countDCalculation, countNSCalculation, countMCalculation;
-    Button startButton, stopButton, resetButton, addAlphaButton, addCharlieButton, addDeltaButton, addNoShootButton, addMissButton, resetPointsButton;
+    Button startButton, stopButton, resetButton, addAlphaButton, addCharlieButton, addDeltaButton, addNoShootButton, addMissButton, resetPointsButton, soundButton;
     long milisecondsTime, startTime, bufTime, updateTime = 0L;
     Handler stopwatchHandler;
     int Seconds = 0,
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         timer = findViewById(R.id.text_stopwatchCounter);
+        soundButton = findViewById(R.id.button_sound);
         startButton = findViewById(R.id.button_start);
         stopButton = findViewById(R.id.button_stop);
         resetButton = findViewById(R.id.button_reset);
@@ -93,191 +95,173 @@ public class MainActivity extends AppCompatActivity {
 
         stopwatchHandler = new Handler();
 
-        startButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                mp.start();
-                timeInSeconds = 0f;
-                startTime = SystemClock.elapsedRealtime();
-                stopwatchHandler.postDelayed(runnableStopwatch, 0);
-                resetButton.setEnabled(false);
-                startButton.setEnabled(false);
-                updatePoints = 0;
-                countA = 0;
-                ASum = getResources().getInteger(alpha_value) * countA;
-                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
-                countC = 0;
-                CSum = getResources().getInteger(charlie_value) * countC;
-                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
-                countD = 0;
-                DSum = getResources().getInteger(delta_value) * countD;
-                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
-                countNS = 0;
-                NSSum = getResources().getInteger(no_shoot_value) * countNS;
-                countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
-                countM = 0;
-                MSum = getResources().getInteger(miss_value) * countM;
-                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        soundButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SoundDetails.class);
+            startActivity(intent);
         });
 
-        stopButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                bufTime += milisecondsTime;
-                stopwatchHandler.removeCallbacks(runnableStopwatch);
-                resetButton.setEnabled(true);
-                startButton.setEnabled(true);
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
+        startButton.setOnClickListener(view -> {
+            mp.start();
+            timeInSeconds = 0f;
+            startTime = SystemClock.elapsedRealtime();
+            stopwatchHandler.postDelayed(runnableStopwatch, 0);
+            resetButton.setEnabled(false);
+            startButton.setEnabled(false);
+            updatePoints = 0;
+            countA = 0;
+            ASum = getResources().getInteger(alpha_value) * countA;
+            countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+            countC = 0;
+            CSum = getResources().getInteger(charlie_value) * countC;
+            countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+            countD = 0;
+            DSum = getResources().getInteger(delta_value) * countD;
+            countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+            countNS = 0;
+            NSSum = getResources().getInteger(no_shoot_value) * countNS;
+            countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+            countM = 0;
+            MSum = getResources().getInteger(miss_value) * countM;
+            countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
                 Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-
-            }
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
 
-        resetButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                milisecondsTime = 0L ;
-                startTime = 0L;
-                bufTime = 0L;
-                updateTime = 0L;
-                timeInSeconds = 0f;
-                updatePoints = 0;
-                countA = 0;
-                ASum = getResources().getInteger(alpha_value) * countA;
-                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
-                countC = 0;
-                CSum = getResources().getInteger(charlie_value) * countC;
-                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
-                countD = 0;
-                DSum = getResources().getInteger(delta_value) * countD;
-                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
-                countNS = 0;
-                NSSum = getResources().getInteger(no_shoot_value) * countNS;
-                countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
-                countM = 0;
-                MSum = getResources().getInteger(miss_value) * countM;
-                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
-                Minutes = 0;
-                Seconds = 0;
-                Miliseconds = 0;
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero));
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
-                        Minutes,
-                        Seconds,
-                        Miliseconds));
-            }
+        stopButton.setOnClickListener(view -> {
+            bufTime += milisecondsTime;
+            stopwatchHandler.removeCallbacks(runnableStopwatch);
+            resetButton.setEnabled(true);
+            startButton.setEnabled(true);
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+            Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
+
         });
 
-        addAlphaButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                updatePoints += getResources().getInteger(alpha_value);
-                countA++;
-                ASum = getResources().getInteger(alpha_value) * countA;
-                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        resetButton.setOnClickListener(view -> {
+            milisecondsTime = 0L ;
+            startTime = 0L;
+            bufTime = 0L;
+            updateTime = 0L;
+            timeInSeconds = 0f;
+            updatePoints = 0;
+            countA = 0;
+            ASum = getResources().getInteger(alpha_value) * countA;
+            countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+            countC = 0;
+            CSum = getResources().getInteger(charlie_value) * countC;
+            countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+            countD = 0;
+            DSum = getResources().getInteger(delta_value) * countD;
+            countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+            countNS = 0;
+            NSSum = getResources().getInteger(no_shoot_value) * countNS;
+            countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+            countM = 0;
+            MSum = getResources().getInteger(miss_value) * countM;
+            countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
+            Minutes = 0;
+            Seconds = 0;
+            Miliseconds = 0;
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero));
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            timer.setText(getResources().getString(R.string.text_stopwatch_counter_zero,
+                    Minutes,
+                    Seconds,
+                    Miliseconds));
         });
 
-        addCharlieButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                updatePoints += getResources().getInteger(charlie_value);
-                countC++;
-                CSum = getResources().getInteger(charlie_value) * countC;
-                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        addAlphaButton.setOnClickListener(v -> {
+            updatePoints += getResources().getInteger(alpha_value);
+            countA++;
+            ASum = getResources().getInteger(alpha_value) * countA;
+            countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
 
-        addDeltaButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                updatePoints += getResources().getInteger(delta_value);
-                countD++;
-                DSum = getResources().getInteger(delta_value) * countD;
-                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        addCharlieButton.setOnClickListener(v -> {
+            updatePoints += getResources().getInteger(charlie_value);
+            countC++;
+            CSum = getResources().getInteger(charlie_value) * countC;
+            countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
 
-        addNoShootButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePoints += getResources().getInteger(no_shoot_value);
-                countNS++;
-                NSSum = getResources().getInteger(no_shoot_value) * countNS;
-                countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        addDeltaButton.setOnClickListener(v -> {
+            updatePoints += getResources().getInteger(delta_value);
+            countD++;
+            DSum = getResources().getInteger(delta_value) * countD;
+            countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
 
-        addMissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePoints += getResources().getInteger(miss_value);
-                countM++;
-                MSum = getResources().getInteger(miss_value) * countM;
-                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        addNoShootButton.setOnClickListener(v -> {
+            updatePoints += getResources().getInteger(no_shoot_value);
+            countNS++;
+            NSSum = getResources().getInteger(no_shoot_value) * countNS;
+            countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
 
-        resetPointsButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                updatePoints = 0;
-                countA = 0;
-                ASum = getResources().getInteger(alpha_value) * countA;
-                countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
-                countC = 0;
-                CSum = getResources().getInteger(charlie_value) * countC;
-                countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
-                countD = 0;
-                DSum = getResources().getInteger(delta_value) * countD;
-                countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
-                comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
-                countNS = 0;
-                NSSum = getResources().getInteger(no_shoot_value) * countNS;
-                countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
-                countM = 0;
-                MSum = getResources().getInteger(miss_value) * countM;
-                countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
-                if(timeInSeconds >0 && updatePoints > 0)
-                    Factor = (float) updatePoints / timeInSeconds;
-                else Factor = 0;
-                comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
-            }
+        addMissButton.setOnClickListener(v -> {
+            updatePoints += getResources().getInteger(miss_value);
+            countM++;
+            MSum = getResources().getInteger(miss_value) * countM;
+            countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
+        });
+
+        resetPointsButton.setOnClickListener(view -> {
+            updatePoints = 0;
+            countA = 0;
+            ASum = getResources().getInteger(alpha_value) * countA;
+            countACalculation.setText(getResources().getString(R.string.text_count_A, countA, ASum));
+            countC = 0;
+            CSum = getResources().getInteger(charlie_value) * countC;
+            countCCalculation.setText(getResources().getString(R.string.text_count_C, countC, CSum));
+            countD = 0;
+            DSum = getResources().getInteger(delta_value) * countD;
+            countDCalculation.setText(getResources().getString(R.string.text_count_D, countD, DSum));
+            comstockCalculation.setText(getString(R.string.text_factorCalculation, updatePoints, timeInSeconds));
+            countNS = 0;
+            NSSum = getResources().getInteger(no_shoot_value) * countNS;
+            countNSCalculation.setText(getResources().getString(R.string.text_count_NS, countNS, NSSum));
+            countM = 0;
+            MSum = getResources().getInteger(miss_value) * countM;
+            countMCalculation.setText(getResources().getString(R.string.text_count_M, countM, MSum));
+            if(timeInSeconds >0 && updatePoints > 0)
+                Factor = (float) updatePoints / timeInSeconds;
+            else Factor = 0;
+            comstockFactor.setText(String.format(Locale.getDefault(),"%.3f", Factor));
         });
     }
 
@@ -297,4 +281,6 @@ public class MainActivity extends AppCompatActivity {
             stopwatchHandler.postDelayed(this, 0);
         }
     };
+
+
 }

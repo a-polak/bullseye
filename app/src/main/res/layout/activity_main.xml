@@ -197,4 +197,17 @@
         app:layout_constraintBottom_toTopOf="@+id/button_add_alpha"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/button_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/sound_details_button"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_no_shoot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_reset_points" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
